@@ -1,0 +1,229 @@
+{
+    // Azure resource name.
+    // This is the short human-readable name of the VM.
+    "name": "vm-azsl-01",
+
+    // Full Azure Resource ID.
+    // Read it from left to right:
+    // /subscriptions/<subscription>
+    // /resourceGroups/<resource-group>
+    // /providers/<provider-namespace>
+    // /<resource-type>/<resource-name>
+    //
+    // Here:
+    // Resource Group = rg-azsl-01
+    // Provider       = Microsoft.Compute
+    // Resource type  = virtualMachines
+    // Resource name  = vm-azsl-01
+    "id": "/subscriptions/xxxxxx/resourceGroups/rg-azsl-01/providers/Microsoft.Compute/virtualMachines/vm-azsl-01",
+
+    // Azure resource type.
+    // Microsoft.Compute is the resource provider namespace.
+    // virtualMachines is the resource type handled by that provider.
+    "type": "Microsoft.Compute/virtualMachines",
+
+    // Azure region where the resource exists.
+    "location": "austriaeast",
+
+    // Resource-specific configuration.
+    "properties": {
+
+        // VM compute hardware configuration.
+        "hardwareProfile": {
+
+            // Azure VM size / SKU.
+            // This determines vCPU, RAM and compute pricing characteristics.
+            "vmSize": "Standard_B2ats_v2"
+        },
+
+        // ARM provisioning result for the VM resource.
+        // "Succeeded" means Azure successfully created/configured the resource.
+        // This is NOT the same as the current VM power state.
+        "provisioningState": "Succeeded",
+
+        // Internal unique VM identifier.
+        // This is NOT the Azure Resource ID above.
+        // For Lab 01, you do not need to memorize or use this value.
+        "vmId": "61462099-324e-45b7-8d47-bc9a13a57b6a",
+
+        // Optional VM capabilities.
+        "additionalCapabilities": {
+
+            // Whether VM hibernation support is enabled.
+            "hibernationEnabled": false
+        },
+
+        // Disk and image configuration.
+        "storageProfile": {
+
+            // Source image used to create the operating system disk.
+            "imageReference": {
+
+                // Image publisher.
+                "publisher": "canonical",
+
+                // Ubuntu image family.
+                "offer": "ubuntu-24_04-lts",
+
+                // Image edition / SKU.
+                "sku": "server",
+
+                // Requested image version.
+                // "latest" means Azure selected the latest available version at deployment time.
+                "version": "latest",
+
+                // Exact image version Azure actually used.
+                "exactVersion": "24.04.202608070"
+            },
+
+            // Operating system disk attached to the VM.
+            "osDisk": {
+
+                // Guest operating system type.
+                "osType": "Linux",
+
+                // Managed OS disk resource name.
+                "name": "vm-azsl-01_OsDisk_1_xxxxxx",
+
+                // The disk was created from the source image above.
+                "createOption": "FromImage",
+
+                // Host-side disk caching mode.
+                "caching": "ReadWrite",
+
+                // Reference to the separate Azure Managed Disk resource.
+                "managedDisk": {
+
+                    // Full Resource ID of the disk.
+                    //
+                    // Note the resource type:
+                    // Microsoft.Compute/disks
+                    //
+                    // The VM and disk use the same provider namespace
+                    // because both are compute resources.
+                    "id": "/subscriptions/xxxxxx/resourceGroups/rg-azsl-01/providers/Microsoft.Compute/disks/vm-azsl-01_OsDisk_1_xxxxxx"
+                },
+
+                // Lifecycle behavior when the VM is deleted.
+                // "Delete" means Azure is configured to delete this OS disk
+                // together with the VM resource.
+                //
+                // This does NOT mean the disk disappears when the VM is only
+                // stopped or deallocated.
+                "deleteOption": "Delete"
+            },
+
+            // No additional data disks are attached in Lab 01.
+            "dataDisks": []
+        },
+
+        // Guest OS provisioning configuration.
+        "osProfile": {
+
+            // Computer / hostname configured inside the Linux guest.
+            "computerName": "vm-azsl-01",
+
+            // Linux-specific provisioning settings.
+            "linuxConfiguration": {
+
+                // Password login is disabled.
+                // Authentication is expected to use SSH keys.
+                "disablePasswordAuthentication": true,
+
+                // SSH configuration pushed into the guest during provisioning.
+                "ssh": {
+                    "publicKeys": [
+                        {
+                            // Location of the authorized SSH public keys
+                            // inside the Linux guest.
+                            "path": "/home/azureuser/.ssh/authorized_keys",
+
+                            // Public SSH key material.
+                            // The real value was intentionally redacted.
+                            //
+                            // This is a PUBLIC key, not the private .pem key.
+                            "keyData": "ssh-rsa xxxxxx/xxxxxx/xxxxxx/xxxxxx/xxxxxx= generated-by-azure"
+                        }
+                    ]
+                },
+
+                // Azure VM Agent is provisioned in the guest.
+                // It allows Azure to perform supported guest-management operations.
+                "provisionVMAgent": true,
+
+                // Guest patching configuration inherited from the image defaults.
+                "patchSettings": {
+                    "patchMode": "ImageDefault",
+                    "assessmentMode": "ImageDefault"
+                }
+            },
+
+            // No guest secrets are defined here.
+            "secrets": [],
+
+            // Azure VM extensions may be installed on this VM.
+            "allowExtensionOperations": true,
+
+            // Azure expects a guest provisioning completion signal.
+            "requireGuestProvisionSignal": true,
+
+            // Linux administrative username created during VM deployment.
+            "adminUsername": "azureuser"
+        },
+
+        // VM security configuration.
+        "securityProfile": {
+
+            // UEFI / Trusted Launch settings.
+            "uefiSettings": {
+
+                // Secure Boot is enabled.
+                "secureBootEnabled": true,
+
+                // Virtual Trusted Platform Module is enabled.
+                "vTpmEnabled": true
+            },
+
+            // VM uses Azure Trusted Launch security type.
+            "securityType": "TrustedLaunch"
+        },
+
+        // VM networking configuration.
+        "networkProfile": {
+
+            // One NIC is attached to this VM.
+            "networkInterfaces": [
+                {
+                    // Full Azure Resource ID of the NIC.
+                    //
+                    // Notice the provider namespace is Microsoft.Network,
+                    // not Microsoft.Compute.
+                    //
+                    // Resource type = networkInterfaces
+                    // Resource name = vm-azsl-01284
+                    "id": "/subscriptions/xxxxxx/resourceGroups/rg-azsl-01/providers/Microsoft.Network/networkInterfaces/vm-azsl-01284",
+
+                    "properties": {
+
+                        // Lifecycle behavior when the VM is deleted.
+                        // "Detach" means the NIC is detached rather than deleted.
+                        //
+                        // This is different from the OS disk above,
+                        // where deleteOption is "Delete".
+                        "deleteOption": "Detach"
+                    }
+                }
+            ]
+        },
+
+        // VM diagnostics settings.
+        "diagnosticsProfile": {
+
+            // Boot diagnostics are enabled.
+            // This can provide boot screenshots / serial-console-related diagnostics.
+            "bootDiagnostics": {
+                "enabled": true
+            }
+        }
+    }
+}

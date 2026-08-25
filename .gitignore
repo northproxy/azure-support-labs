@@ -1,0 +1,23 @@
+# Private notes
+local/
+
+# Temporary files
+tmp/
+
+# Secrets / credentials
+.env
+*.pem
+*.key
+*.pfx
+*.cer
+credentials.*
+secrets.*
+
+# Azure local config
+.azure/
+
+# OS/editor noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
