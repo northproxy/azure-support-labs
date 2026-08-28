@@ -252,7 +252,7 @@ Temporary ARM deployment resources: none
 
 # Lab 03 — Identity, RBAC & Governance
 
-Status: **active**
+Status: **completed**
 
 ## Purpose
 
@@ -346,31 +346,42 @@ Policy versus RBAC versus platform restriction diagnosis
 Policy cleanup and baseline verification
 ```
 
-Current temporary access model:
+Final cleanup state:
 
 ```text
-AZSL RBAC Test User
-└── member of AZSL RBAC VM Operators
-    └── Virtual Machine Contributor @ rg-azsl-01
+AZSL RBAC Test User        → deleted
+AZSL RBAC VM Operators     → deleted
+Temporary RBAC assignments → removed
+Temporary Policy resources → deleted
+Temporary Policy assignment→ deleted
+vm-azsl-01                 → VM deallocated
 ```
 
 Known finding retained for later review:
 
 - The primary administrative user currently has two duplicate `Owner` role assignment objects at subscription scope. They were intentionally left unchanged during the lab.
 
-Current checkpoint:
+Completion checkpoint:
 
-- RBAC and group-based access phases completed.
-- Phase 5 — Azure Policy Basics completed.
-- Temporary managed identities used for Policy testing were deleted.
-- Temporary Resource Group scoped Policy assignment was deleted.
+- Phases 1–5 completed.
+- Temporary Microsoft Entra test user deleted.
+- Temporary Microsoft Entra test group deleted.
+- Temporary Lab 03 RBAC assignments removed.
+- Temporary managed identities used for Policy testing deleted.
+- Temporary Resource Group scoped Policy assignment deleted.
 - Subscription-level `ASC Default` / Microsoft cloud security benchmark assignment was observed and intentionally left unchanged.
-- Latest confirmed VM state: `VM deallocated`.
+- Primary administrative `Owner` access was left unchanged.
+- Final confirmed VM state: `VM deallocated`.
+- Lab 03 environment returned to the retained Azure baseline.
 
 Implementation files:
 
-- `labs/03-identity-rbac-governance/LAB03_IDENTITY_RBAC_PROGRESS.md` — identity, RBAC, and access troubleshooting notes.
-- `labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md` — Azure Policy definitions, assignments, compliance, Audit/Deny behavior, governance troubleshooting, and cleanup.
+- `labs/03-identity-rbac-governance/README.md` — Lab 03 overview and phase index.
+- `labs/03-identity-rbac-governance/LAB03_PHASE1_IDENTITY_AND_ACCESS_BASELINE.md`
+- `labs/03-identity-rbac-governance/LAB03_PHASE2_ROLE_DEFINITIONS_SCOPE_INHERITANCE_AND_LEAST_PRIVILEGE.md`
+- `labs/03-identity-rbac-governance/LAB03_PHASE3_AZURE_RBAC_VERSUS_MICROSOFT_ENTRA_ROLES.md`
+- `labs/03-identity-rbac-governance/LAB03_PHASE4_GROUP_BASED_RBAC.md`
+- `labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md`
 
 ## Optional extension
 
@@ -732,7 +743,7 @@ Recommended progression:
 ```text
 [x] Lab 01 — Azure Foundation & Resource Lifecycle
 [x] Lab 02 — Azure Compute & Administration
-[ ] Lab 03 — Identity, RBAC & Governance
+[x] Lab 03 — Identity, RBAC & Governance
 [ ] Lab 04 — Azure Networking & Connectivity Troubleshooting
 [ ] Lab 05 — Azure Storage & Data Access
 [ ] Lab 06 — Monitoring, Logs & Incident Diagnosis
@@ -743,9 +754,9 @@ Lab 01 is completed.
 
 Lab 02 is completed.
 
-Current stage: Lab 03 active. Identity, Azure RBAC, scope/inheritance, least privilege, Entra-role comparison, group-based RBAC, and Azure Policy basics have been practiced.
+Lab 03 is completed. Identity, Azure RBAC, scope/inheritance, least privilege, Microsoft Entra role comparison, group-based RBAC, Azure Policy basics, compliance evaluation, `Audit`/`Deny`, inheritance, initiatives, and governance troubleshooting were practiced.
 
-Phase 5 — Azure Policy Basics is completed, including compliance evaluation, `Audit`/`Deny`, inheritance, initiatives, and `RequestDisallowedByPolicy` troubleshooting.
+Current stage: prepare Lab 04 — Azure Networking & Connectivity Troubleshooting.
 
 Labs should be implemented in medium-sized increments rather than designed in full upfront.
 

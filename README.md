@@ -18,18 +18,22 @@ Instead of only learning Azure concepts theoretically, each important topic is p
 * Course 8 — **Azure Cloud Services** in progress
 * Lab 01 — **completed**
 * Lab 02 — **completed**
-* Lab 03 — **active**
+* Lab 03 — **completed**
 
-Current Lab 03 checkpoint:
+Lab 03 completion summary:
 
 * identity and authentication/authorization baseline completed;
-* Azure RBAC role definitions, assignments, scope, and inheritance practiced;
-* least-privilege `AuthorizationFailed` scenario diagnosed and fixed;
+* Azure RBAC role definitions, assignments, scope, inheritance, and least privilege practiced;
+* controlled `AuthorizationFailed` scenario diagnosed, fixed, and verified;
 * Azure RBAC versus Microsoft Entra roles compared;
 * group-based RBAC access verified;
 * Azure Policy definitions, assignments, scope, inheritance, initiatives, and compliance evaluation practiced;
 * controlled `Audit` and `Deny` scenarios completed, including `RequestDisallowedByPolicy` troubleshooting;
-* temporary Policy test resources deleted and `vm-azsl-01` returned to `VM deallocated`.
+* temporary Microsoft Entra test user and group deleted;
+* temporary Lab 03 RBAC and Policy assignments removed;
+* temporary Policy test resources deleted;
+* `vm-azsl-01` returned to `VM deallocated`;
+* primary administrative access and inherited subscription-level security governance left unchanged.
 
 ## Project Structure
 
@@ -56,13 +60,13 @@ azure-support-labs/
 
 * [x] Lab 01 — Azure Foundation & Resource Lifecycle
 * [x] Lab 02 — Azure Compute & Administration
-* [ ] Lab 03 — Identity, RBAC & Governance — **active**
+* [x] Lab 03 — Identity, RBAC & Governance — **completed**
 * [ ] Lab 04 — Azure Networking & Connectivity Troubleshooting
 * [ ] Lab 05 — Azure Storage & Data Access
 * [ ] Lab 06 — Monitoring, Logs & Incident Diagnosis
 * [ ] Lab 07 — Backup, Recovery, Updates & Compliance
 
-Lab 03 practical work currently covers Microsoft Entra users and groups, Azure RBAC roles and assignments, scope and inheritance, least privilege, controlled authorization failure diagnosis, Microsoft Entra roles versus Azure RBAC, group-based access, Azure Policy definitions and assignments, initiatives, compliance evaluation, `Audit` versus `Deny`, and controlled governance failure diagnosis.
+Lab 03 practical work covered Microsoft Entra users and groups, Azure RBAC roles and assignments, scope and inheritance, least privilege, controlled authorization failure diagnosis, Microsoft Entra roles versus Azure RBAC, group-based access, Azure Policy definitions and assignments, initiatives, compliance evaluation, `Audit` versus `Deny`, controlled governance failure diagnosis, and final cleanup.
 
 ## Main Areas
 
@@ -81,7 +85,26 @@ Lab 03 practical work currently covers Microsoft Entra users and groups, Azure R
 * [`ROADMAP.md`](ROADMAP.md) — learning phases and progress
 * [`AZURE_MAP.md`](AZURE_MAP.md) — growing Azure knowledge map
 * [`LAB_TEMPLATE.md`](LAB_TEMPLATE.md) — standard structure for practical labs
+* [`labs/03-identity-rbac-governance/README.md`](labs/03-identity-rbac-governance/README.md) — Lab 03 overview and phase index
+* [`labs/03-identity-rbac-governance/LAB03_PHASE1_IDENTITY_AND_ACCESS_BASELINE.md`](labs/03-identity-rbac-governance/LAB03_PHASE1_IDENTITY_AND_ACCESS_BASELINE.md) — identity and access baseline
+* [`labs/03-identity-rbac-governance/LAB03_PHASE2_ROLE_DEFINITIONS_SCOPE_INHERITANCE_AND_LEAST_PRIVILEGE.md`](labs/03-identity-rbac-governance/LAB03_PHASE2_ROLE_DEFINITIONS_SCOPE_INHERITANCE_AND_LEAST_PRIVILEGE.md) — RBAC scope, inheritance, least privilege, and authorization troubleshooting
+* [`labs/03-identity-rbac-governance/LAB03_PHASE3_AZURE_RBAC_VERSUS_MICROSOFT_ENTRA_ROLES.md`](labs/03-identity-rbac-governance/LAB03_PHASE3_AZURE_RBAC_VERSUS_MICROSOFT_ENTRA_ROLES.md) — Azure RBAC versus Microsoft Entra roles
+* [`labs/03-identity-rbac-governance/LAB03_PHASE4_GROUP_BASED_RBAC.md`](labs/03-identity-rbac-governance/LAB03_PHASE4_GROUP_BASED_RBAC.md) — group-based RBAC
 * [`labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md`](labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md) — Azure Policy basics, compliance, and governance troubleshooting
+
+## Current Checkpoint
+
+Labs 01–03 are completed.
+
+Next:
+
+**Lab 04 — Azure Networking & Connectivity Troubleshooting**
+
+The retained VM baseline is:
+
+```text
+vm-azsl-01 → VM deallocated
+```
 
 ## Certification Path
 
