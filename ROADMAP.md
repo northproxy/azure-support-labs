@@ -66,6 +66,22 @@ Lab 07: backup vault components, backup policy, recovery points, update configur
 
 ---
 
+# Project Support Tools
+
+Permanent helper tools may be added when they improve safe and repeatable lab work without becoming separate labs.
+
+Current tool:
+
+```text
+tools/azure-output-sanitizer.html
+```
+
+The Azure Output Sanitizer is a local browser-based helper used to sanitize Azure CLI and PowerShell output before sharing or documenting it. It preserves troubleshooting context while replacing common identifiers such as GUIDs, IPv4 addresses, UPN/email addresses, MAC addresses, and SSH public keys.
+
+The tool is maintained as a permanent project component and does not change the core lab sequence.
+
+---
+
 # Lab 01 — Azure Foundation & Resource Lifecycle
 
 Status: **completed**

@@ -47,6 +47,12 @@ azure-support-labs/
 ├── docs/
 │   ├── architecture/
 │   └── screenshots/
+├── tools/
+│   ├── README.md
+│   ├── azure-output-sanitizer.html
+│   ├── azure-output-sanitizer.css
+│   ├── azure-output-sanitizer.js
+│   └── azure-output-sanitizer.png
 └── labs/
     ├── course-07/
     ├── course-08/
@@ -55,6 +61,24 @@ azure-support-labs/
     ├── course-11/
     └── course-12/
 ```
+
+## Project Tools
+
+### Azure Output Sanitizer
+
+The repository includes a local browser-based helper for sanitizing Azure CLI and PowerShell output before sharing it with ChatGPT or saving it in project documentation.
+
+Location:
+
+```text
+tools/
+```
+
+The sanitizer currently replaces GUIDs, IPv4 addresses, UPN/email addresses, MAC addresses, and SSH public keys while preserving useful Azure troubleshooting context such as resource names, provider paths, regions, VM sizes, ports, protocols, CIDR prefix lengths, and resource states.
+
+The tool runs locally in the browser and does not make network requests. It is a lightweight project helper, not a production DLP or secret-scanning solution.
+
+See [`tools/README.md`](tools/README.md) for current rules and limitations.
 
 ## Labs
 
