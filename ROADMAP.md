@@ -153,7 +153,7 @@ Detailed controlled-failure troubleshooting scenarios are added only after the f
 
 # Lab 02 — Azure Compute & Administration
 
-Status: **active**
+Status: **completed**
 
 ## Purpose
 
@@ -205,6 +205,37 @@ Learn how Azure workloads are administered through the Portal, Azure CLI, Azure 
 - App Service resources after validation
 - Temporary deployment-test resources
 
+## Completion summary
+
+Completed practical coverage:
+
+```text
+VM lifecycle and configuration
+Managed disk administration
+Azure CLI administration
+Azure PowerShell administration
+ARM template deployment and troubleshooting
+App Service Plan and Web App fundamentals
+Python App Service deployment
+Application settings and runtime configuration
+Scaling fundamentals
+Controlled App Service startup failure diagnosis
+Final cleanup and baseline verification
+```
+
+Final retained baseline:
+
+```text
+VM:                  vm-azsl-01
+VM size:             Standard_B2ats_v2
+Provisioning state:  Succeeded
+Power state:         VM deallocated
+OS disk:             30 GiB StandardSSD_LRS
+Data disks:          none
+Temporary App Service resources: none
+Temporary ARM deployment resources: none
+```
+
 ## Exclusions
 
 - Full AKS cluster deployment
@@ -221,7 +252,7 @@ Learn how Azure workloads are administered through the Portal, Azure CLI, Azure 
 
 # Lab 03 — Identity, RBAC & Governance
 
-Status: **planned**
+Status: **active**
 
 ## Purpose
 
@@ -286,6 +317,60 @@ Understand the difference between identity, authentication, authorization, and g
 - Microsoft Entra Connect deployment
 - Hybrid identity infrastructure
 - Complex Conditional Access design
+
+## Progress
+
+Completed practical coverage so far:
+
+```text
+Identity and access baseline
+External/guest Entra user inspection
+Azure RBAC role definitions and assignments
+Subscription scope and inheritance
+Reader least-privilege assignment
+Controlled AuthorizationFailed troubleshooting
+Virtual Machine Contributor remediation
+Least-privilege cleanup
+Azure RBAC versus Microsoft Entra roles
+Microsoft Entra group creation and membership
+Group-based RBAC assignment and verification
+Azure Policy definition and parameter inspection
+Resource Group scoped Policy assignment
+Policy scope and inheritance observation
+Policy initiative observation
+Compliance evaluation and manual scan
+Controlled Audit non-compliance scenario
+Controlled Deny governance failure
+RequestDisallowedByPolicy troubleshooting
+Policy versus RBAC versus platform restriction diagnosis
+Policy cleanup and baseline verification
+```
+
+Current temporary access model:
+
+```text
+AZSL RBAC Test User
+└── member of AZSL RBAC VM Operators
+    └── Virtual Machine Contributor @ rg-azsl-01
+```
+
+Known finding retained for later review:
+
+- The primary administrative user currently has two duplicate `Owner` role assignment objects at subscription scope. They were intentionally left unchanged during the lab.
+
+Current checkpoint:
+
+- RBAC and group-based access phases completed.
+- Phase 5 — Azure Policy Basics completed.
+- Temporary managed identities used for Policy testing were deleted.
+- Temporary Resource Group scoped Policy assignment was deleted.
+- Subscription-level `ASC Default` / Microsoft cloud security benchmark assignment was observed and intentionally left unchanged.
+- Latest confirmed VM state: `VM deallocated`.
+
+Implementation files:
+
+- `labs/03-identity-rbac-governance/LAB03_IDENTITY_RBAC_PROGRESS.md` — identity, RBAC, and access troubleshooting notes.
+- `labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md` — Azure Policy definitions, assignments, compliance, Audit/Deny behavior, governance troubleshooting, and cleanup.
 
 ## Optional extension
 
@@ -646,7 +731,7 @@ Recommended progression:
 
 ```text
 [x] Lab 01 — Azure Foundation & Resource Lifecycle
-[ ] Lab 02 — Azure Compute & Administration
+[x] Lab 02 — Azure Compute & Administration
 [ ] Lab 03 — Identity, RBAC & Governance
 [ ] Lab 04 — Azure Networking & Connectivity Troubleshooting
 [ ] Lab 05 — Azure Storage & Data Access
@@ -656,9 +741,11 @@ Recommended progression:
 
 Lab 01 is completed.
 
-Lab 02 is the current active lab.
+Lab 02 is completed.
 
-Current stage: retained Lab 01 base environment is ready for Azure Compute & Administration work.
+Current stage: Lab 03 active. Identity, Azure RBAC, scope/inheritance, least privilege, Entra-role comparison, group-based RBAC, and Azure Policy basics have been practiced.
+
+Phase 5 — Azure Policy Basics is completed, including compliance evaluation, `Audit`/`Deny`, inheritance, initiatives, and `RequestDisallowedByPolicy` troubleshooting.
 
 Labs should be implemented in medium-sized increments rather than designed in full upfront.
 

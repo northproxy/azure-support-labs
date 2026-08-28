@@ -16,7 +16,20 @@ Instead of only learning Azure concepts theoretically, each important topic is p
 
 * Courses 1–7 completed
 * Course 8 — **Azure Cloud Services** in progress
-* Course 7 is currently being reinforced with practical labs
+* Lab 01 — **completed**
+* Lab 02 — **completed**
+* Lab 03 — **active**
+
+Current Lab 03 checkpoint:
+
+* identity and authentication/authorization baseline completed;
+* Azure RBAC role definitions, assignments, scope, and inheritance practiced;
+* least-privilege `AuthorizationFailed` scenario diagnosed and fixed;
+* Azure RBAC versus Microsoft Entra roles compared;
+* group-based RBAC access verified;
+* Azure Policy definitions, assignments, scope, inheritance, initiatives, and compliance evaluation practiced;
+* controlled `Audit` and `Deny` scenarios completed, including `RequestDisallowedByPolicy` troubleshooting;
+* temporary Policy test resources deleted and `vm-azsl-01` returned to `VM deallocated`.
 
 ## Project Structure
 
@@ -41,24 +54,15 @@ azure-support-labs/
 
 ## Labs
 
-### Course 7 — Azure Foundation
+* [x] Lab 01 — Azure Foundation & Resource Lifecycle
+* [x] Lab 02 — Azure Compute & Administration
+* [ ] Lab 03 — Identity, RBAC & Governance — **active**
+* [ ] Lab 04 — Azure Networking & Connectivity Troubleshooting
+* [ ] Lab 05 — Azure Storage & Data Access
+* [ ] Lab 06 — Monitoring, Logs & Incident Diagnosis
+* [ ] Lab 07 — Backup, Recovery, Updates & Compliance
 
-* [x] Lab 01 — Azure Foundation: Build, Break, Diagnose, Fix
-* [ ] Lab 02 — Azure Compute & Administration
-
-Topics:
-
-* Resource Groups
-* Virtual Machines
-* Virtual Networks
-* Subnets
-* Network Security Groups
-* Public IP
-* Network Interfaces
-* Managed Disks
-* Azure Portal
-* Azure CLI
-* Activity Log
+Lab 03 practical work currently covers Microsoft Entra users and groups, Azure RBAC roles and assignments, scope and inheritance, least privilege, controlled authorization failure diagnosis, Microsoft Entra roles versus Azure RBAC, group-based access, Azure Policy definitions and assignments, initiatives, compliance evaluation, `Audit` versus `Deny`, and controlled governance failure diagnosis.
 
 ## Main Areas
 
@@ -77,6 +81,7 @@ Topics:
 * [`ROADMAP.md`](ROADMAP.md) — learning phases and progress
 * [`AZURE_MAP.md`](AZURE_MAP.md) — growing Azure knowledge map
 * [`LAB_TEMPLATE.md`](LAB_TEMPLATE.md) — standard structure for practical labs
+* [`labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md`](labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md) — Azure Policy basics, compliance, and governance troubleshooting
 
 ## Certification Path
 

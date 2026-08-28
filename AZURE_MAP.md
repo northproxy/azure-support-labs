@@ -6,10 +6,34 @@ Azure
 ├── Resource management
 │   ├── Subscription
 │   ├── Resource Group
-│   └── Resources
+│   ├── Resources
+│   ├── Resource Provider
+│   ├── Azure Resource Manager
+│   └── ARM Template
+│       ├── Parameters
+│       ├── Dependencies
+│       └── Deployment validation
 │
 ├── Compute
-│   └── Virtual Machine
+│   ├── Virtual Machine
+│   │   ├── Lifecycle
+│   │   ├── Sizing
+│   │   └── Managed OS / data disk relationships
+│   └── App Service
+│       ├── App Service Plan
+│       ├── Web App
+│       ├── Runtime configuration
+│       ├── Application settings
+│       ├── ZIP deployment
+│       ├── Scale up / down
+│       ├── Scale out / in
+│       └── Startup troubleshooting
+│
+├── Administration
+│   ├── Azure Portal
+│   ├── Azure CLI
+│   ├── Azure PowerShell
+│   └── ARM-based deployment
 │
 ├── Networking
 │   ├── Virtual Network
@@ -22,7 +46,31 @@ Azure
 │   └── Managed Disk
 │
 ├── Identity
-│   └── RBAC
+│   ├── Microsoft Entra ID
+│   │   ├── User
+│   │   ├── External / guest user
+│   │   ├── Group
+│   │   ├── Group membership
+│   │   └── Microsoft Entra roles
+│   │       └── Global Administrator
+│   ├── Authentication
+│   ├── Authorization
+│   └── Azure RBAC
+│       ├── Security principal
+│       ├── Role definition
+│       │   ├── Owner
+│       │   ├── Contributor
+│       │   ├── Reader
+│       │   └── Virtual Machine Contributor
+│       ├── Role assignment
+│       ├── Scope
+│       │   ├── Subscription
+│       │   ├── Resource Group
+│       │   └── Resource
+│       ├── Inheritance
+│       ├── Least privilege
+│       ├── Group-based access
+│       └── AuthorizationFailed troubleshooting
 │
 ├── Monitoring
 │   └── Activity Log
@@ -30,3 +78,24 @@ Azure
 ├── Backup & Recovery
 │
 └── Security & Compliance
+    └── Azure Policy
+        ├── Policy definition
+        │   ├── Built-in definition
+        │   ├── Parameters
+        │   └── Mode
+        │       └── Indexed
+        ├── Policy assignment
+        ├── Scope
+        │   ├── Subscription
+        │   └── Resource Group
+        ├── Inheritance
+        ├── Policy initiative
+        ├── Effects
+        │   ├── Audit
+        │   ├── Deny
+        │   └── Disabled
+        ├── Compliance evaluation
+        │   ├── Compliant
+        │   └── NonCompliant
+        ├── RBAC versus Policy
+        └── RequestDisallowedByPolicy troubleshooting
