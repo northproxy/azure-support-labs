@@ -19,6 +19,7 @@ Instead of only learning Azure concepts theoretically, each important topic is p
 * Lab 01 — **completed**
 * Lab 02 — **completed**
 * Lab 03 — **completed**
+* Lab 04 — **in progress** — Phases 1–3 completed
 
 Lab 03 completion summary:
 
@@ -85,12 +86,26 @@ See [`tools/README.md`](tools/README.md) for current rules and limitations.
 * [x] Lab 01 — Azure Foundation & Resource Lifecycle
 * [x] Lab 02 — Azure Compute & Administration
 * [x] Lab 03 — Identity, RBAC & Governance — **completed**
-* [ ] Lab 04 — Azure Networking & Connectivity Troubleshooting
+* [ ] Lab 04 — Azure Networking & Connectivity Troubleshooting — **in progress**
 * [ ] Lab 05 — Azure Storage & Data Access
 * [ ] Lab 06 — Monitoring, Logs & Incident Diagnosis
 * [ ] Lab 07 — Backup, Recovery, Updates & Compliance
 
 Lab 03 practical work covered Microsoft Entra users and groups, Azure RBAC roles and assignments, scope and inheritance, least privilege, controlled authorization failure diagnosis, Microsoft Entra roles versus Azure RBAC, group-based access, Azure Policy definitions and assignments, initiatives, compliance evaluation, `Audit` versus `Deny`, controlled governance failure diagnosis, and final cleanup.
+
+Lab 04 progress so far:
+
+* Phase 1 — Networking Baseline Inspection completed;
+* VM → NIC → IP configuration, VNet, subnet, NSG attachment, effective security rules, and effective routes inspected;
+* real SSH failure caused by an administrator public IPv4 change diagnosed and fixed by updating the restrictive `/32` NSG source;
+* Phase 2 — controlled NSG SSH deny scenario completed;
+* NSG priority behavior and effective security rules verified;
+* Network Watcher IP flow verify identified the exact blocking rule;
+* Phase 3 — controlled User-Defined Route failure completed;
+* temporary `/32 → None` route reproduced an SSH timeout;
+* effective routes and longest prefix match were used to diagnose the routing failure;
+* temporary route and route table were removed;
+* original system-route baseline and SSH connectivity were restored.
 
 ## Main Areas
 
@@ -115,20 +130,43 @@ Lab 03 practical work covered Microsoft Entra users and groups, Azure RBAC roles
 * [`labs/03-identity-rbac-governance/LAB03_PHASE3_AZURE_RBAC_VERSUS_MICROSOFT_ENTRA_ROLES.md`](labs/03-identity-rbac-governance/LAB03_PHASE3_AZURE_RBAC_VERSUS_MICROSOFT_ENTRA_ROLES.md) — Azure RBAC versus Microsoft Entra roles
 * [`labs/03-identity-rbac-governance/LAB03_PHASE4_GROUP_BASED_RBAC.md`](labs/03-identity-rbac-governance/LAB03_PHASE4_GROUP_BASED_RBAC.md) — group-based RBAC
 * [`labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md`](labs/03-identity-rbac-governance/LAB03_PHASE5_AZURE_POLICY_BASICS.md) — Azure Policy basics, compliance, and governance troubleshooting
+* [`labs/04-networking-connectivity-troubleshooting/LAB04_PHASE1_NETWORKING_BASELINE_INSPECTION.md`](labs/04-networking-connectivity-troubleshooting/LAB04_PHASE1_NETWORKING_BASELINE_INSPECTION.md) — networking baseline, effective NSG rules, and effective routes
+* [`labs/04-networking-connectivity-troubleshooting/LAB04_PHASE2_NSG_CONNECTIVITY_TROUBLESHOOTING.md`](labs/04-networking-connectivity-troubleshooting/LAB04_PHASE2_NSG_CONNECTIVITY_TROUBLESHOOTING.md) — controlled NSG SSH failure and Network Watcher diagnosis
+* [`labs/04-networking-connectivity-troubleshooting/LAB04_PHASE3_ROUTING_AND_UDR_TROUBLESHOOTING.md`](labs/04-networking-connectivity-troubleshooting/LAB04_PHASE3_ROUTING_AND_UDR_TROUBLESHOOTING.md) — controlled UDR failure, effective routes, and longest prefix match
+* [`labs/04-networking-connectivity-troubleshooting/LAB04_TROUBLESHOOTING_SSH_SOURCE_IP_CHANGED.md`](labs/04-networking-connectivity-troubleshooting/LAB04_TROUBLESHOOTING_SSH_SOURCE_IP_CHANGED.md) — real SSH troubleshooting case caused by client public IP change
 
 ## Current Checkpoint
 
 Labs 01–03 are completed.
 
-Next:
+Lab 04 is **in progress**.
 
-**Lab 04 — Azure Networking & Connectivity Troubleshooting**
-
-The retained VM baseline is:
+Completed:
 
 ```text
-vm-azsl-01 → VM deallocated
+Phase 1 — Networking Baseline Inspection
+Phase 2 — NSG Connectivity Troubleshooting
+Phase 3 — Routing and User-Defined Route Troubleshooting
 ```
+
+Current retained networking baseline:
+
+```text
+VM:                 vm-azsl-01
+NIC:                vm-azsl-01284
+VNet:               vnet-azsl-01
+Subnet:             subnet-azsl-01
+NSG:                nsg-azsl-01
+Subnet route table: none
+Active UDRs:        none
+Effective routing:  Azure system routes only
+SSH rule:           allow-ssh-myip
+SSH connectivity:   working
+```
+
+Next:
+
+**Lab 04 — Phase 4: VNet Peering & Private Connectivity Troubleshooting**
 
 ## Certification Path
 

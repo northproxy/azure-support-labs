@@ -38,9 +38,27 @@ Azure
 ├── Networking
 │   ├── Virtual Network
 │   ├── Subnet
-│   ├── Network Security Group
 │   ├── Public IP
-│   └── Network Interface
+│   ├── Network Interface
+│   ├── Network Security Group
+│   │   ├── Inbound rules
+│   │   ├── Outbound rules
+│   │   ├── Rule priority
+│   │   ├── Default rules
+│   │   ├── Effective security rules
+│   │   └── SSH source /32 troubleshooting
+│   ├── Network Watcher
+│   │   └── IP flow verify
+│   └── Routing
+│       ├── System routes
+│       ├── Route table
+│       ├── User-Defined Route
+│       ├── Effective routes
+│       ├── Longest prefix match
+│       └── Next hop
+│           ├── Internet
+│           ├── VnetLocal
+│           └── None
 │
 ├── Storage
 │   └── Managed Disk

@@ -408,7 +408,7 @@ Implementation files:
 
 # Lab 04 — Azure Networking & Connectivity Troubleshooting
 
-Status: **planned**
+Status: **in progress**
 
 ## Purpose
 
@@ -484,6 +484,70 @@ Build the strongest practical networking and connectivity troubleshooting founda
 - Large multi-region network design
 - Permanent Azure Firewall deployment
 - Permanent Azure Bastion deployment
+
+## Progress
+
+Completed so far:
+
+```text
+Phase 1 — Networking Baseline Inspection
+Phase 2 — NSG Connectivity Troubleshooting
+Phase 3 — Routing and User-Defined Route Troubleshooting
+```
+
+Practical coverage completed:
+
+- inspected VM → NIC → IP configuration relationships;
+- confirmed NIC-level NSG association and no subnet-level NSG;
+- inspected effective security rules;
+- inspected Azure system routes and effective routes;
+- diagnosed a real SSH failure caused by the administrator public IPv4 address changing;
+- updated the restrictive SSH source `/32` and restored connectivity;
+- created a controlled higher-priority NSG deny rule for TCP/22;
+- reproduced an SSH timeout;
+- diagnosed the exact blocking rule using effective security rules and Network Watcher IP flow verify;
+- removed the temporary deny rule and verified SSH recovery;
+- created and associated a temporary route table;
+- verified that an empty route table did not break connectivity;
+- created a controlled `/32 → None` User-Defined Route;
+- reproduced an SSH timeout caused by return-path routing;
+- inspected NIC effective routes;
+- demonstrated longest prefix match over the system `0.0.0.0/0 → Internet` route;
+- removed the problematic UDR and verified SSH recovery;
+- detached and deleted the temporary route table;
+- restored the original Azure system-route baseline.
+
+Current retained networking baseline:
+
+```text
+Resource Group:      rg-azsl-01
+VM:                  vm-azsl-01
+NIC:                 vm-azsl-01284
+VNet:                vnet-azsl-01
+Subnet:              subnet-azsl-01
+NSG:                 nsg-azsl-01
+Public IP:           vm-azsl-01-ip
+NSG attachment:      NIC level
+Subnet-level NSG:    none
+Subnet route table:  none
+Active UDRs:         none
+Effective routing:   Azure system routes only
+SSH rule:            allow-ssh-myip
+SSH source:          current administrator public IPv4 /32
+SSH port:            TCP/22
+SSH connectivity:    working
+```
+
+Implementation files:
+
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE1_NETWORKING_BASELINE_INSPECTION.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE2_NSG_CONNECTIVITY_TROUBLESHOOTING.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE3_ROUTING_AND_UDR_TROUBLESHOOTING.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_TROUBLESHOOTING_SSH_SOURCE_IP_CHANGED.md`
+
+Next:
+
+- Phase 4 — VNet Peering & Private Connectivity Troubleshooting
 
 ## Optional extensions
 
@@ -772,7 +836,7 @@ Lab 02 is completed.
 
 Lab 03 is completed. Identity, Azure RBAC, scope/inheritance, least privilege, Microsoft Entra role comparison, group-based RBAC, Azure Policy basics, compliance evaluation, `Audit`/`Deny`, inheritance, initiatives, and governance troubleshooting were practiced.
 
-Current stage: prepare Lab 04 — Azure Networking & Connectivity Troubleshooting.
+Current stage: Lab 04 — Azure Networking & Connectivity Troubleshooting is in progress. Phases 1–3 are completed; Phase 4 will cover VNet peering and private connectivity troubleshooting.
 
 Labs should be implemented in medium-sized increments rather than designed in full upfront.
 
