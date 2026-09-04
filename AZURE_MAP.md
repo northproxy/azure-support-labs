@@ -37,6 +37,14 @@ Azure
 │
 ├── Networking
 │   ├── Virtual Network
+│   │   └── VNet Peering
+│   │       ├── Non-overlapping address spaces
+│   │       ├── Bidirectional peering configuration
+│   │       ├── Peering state
+│   │       │   ├── Connected
+│   │       │   └── Disconnected
+│   │       ├── Private cross-VNet connectivity
+│   │       └── RemotePeeringIsDisconnected troubleshooting
 │   ├── Subnet
 │   ├── Public IP
 │   ├── Network Interface
@@ -47,6 +55,17 @@ Azure
 │   │   ├── Default rules
 │   │   ├── Effective security rules
 │   │   └── SSH source /32 troubleshooting
+│   ├── Azure Load Balancer
+│   │   ├── Standard Public Load Balancer
+│   │   ├── Frontend IP configuration
+│   │   ├── Backend pool
+│   │   ├── Health probe
+│   │   │   ├── HTTP probe
+│   │   │   └── Backend health convergence
+│   │   ├── Load-balancing rule
+│   │   ├── Backend traffic distribution
+│   │   ├── Backend security path
+│   │   └── Backend failure and recovery troubleshooting
 │   ├── Network Watcher
 │   │   └── IP flow verify
 │   └── Routing
@@ -58,6 +77,7 @@ Azure
 │       └── Next hop
 │           ├── Internet
 │           ├── VnetLocal
+│           ├── VNetPeering
 │           └── None
 │
 ├── Storage

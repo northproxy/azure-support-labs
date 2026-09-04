@@ -408,7 +408,7 @@ Implementation files:
 
 # Lab 04 — Azure Networking & Connectivity Troubleshooting
 
-Status: **in progress**
+Status: **completed**
 
 ## Purpose
 
@@ -487,12 +487,14 @@ Build the strongest practical networking and connectivity troubleshooting founda
 
 ## Progress
 
-Completed so far:
+Completed:
 
 ```text
 Phase 1 — Networking Baseline Inspection
 Phase 2 — NSG Connectivity Troubleshooting
 Phase 3 — Routing and User-Defined Route Troubleshooting
+Phase 4 — VNet Peering & Private Connectivity Troubleshooting
+Phase 5 — Azure Load Balancer & Backend Connectivity Troubleshooting
 ```
 
 Practical coverage completed:
@@ -515,7 +517,35 @@ Practical coverage completed:
 - demonstrated longest prefix match over the system `0.0.0.0/0 → Internet` route;
 - removed the problematic UDR and verified SSH recovery;
 - detached and deleted the temporary route table;
-- restored the original Azure system-route baseline.
+- restored the original Azure system-route baseline;
+- created a temporary second VNet using a non-overlapping `/24` address space;
+- created a temporary private-only Linux VM without a Public IP;
+- verified that isolated VNets had no private ICMP or TCP/22 connectivity;
+- created bidirectional VNet peering and verified `Connected` state;
+- observed the automatic remote-prefix effective route with next hop `VNetPeering`;
+- verified private ICMP and TCP/22 connectivity across the peering;
+- deleted one peering side as a controlled failure;
+- observed the remaining peering in `Disconnected` state;
+- confirmed that the `VNetPeering` effective route disappeared and private connectivity failed;
+- encountered and diagnosed `RemotePeeringIsDisconnected`;
+- removed the disconnected peer, recreated both sides, and verified recovery;
+- deleted all temporary Phase 4 resources;
+- verified the original retained Resource Group baseline through Azure CLI.
+- created two private-only temporary backend VMs for Load Balancer testing;
+- diagnosed regional vCPU quota exhaustion and adapted the design to `Standard_D1_v2`;
+- diagnosed VM generation incompatibility and selected the compatible Ubuntu `server-gen1` image;
+- installed and verified nginx independently on both backend VMs;
+- built a Standard Public Load Balancer with frontend IP configuration, backend pool, HTTP health probe, and TCP/80 rule;
+- diagnosed an external HTTP timeout by verifying control-plane configuration, guest service state, and the network security path;
+- created a dedicated NIC-level backend NSG and restored HTTP reachability;
+- verified repeated request distribution across both healthy backends;
+- stopped nginx on one backend as a controlled application-layer failure;
+- observed health-probe convergence and verified that traffic continued only through the healthy backend;
+- confirmed the failed backend had no TCP/80 listener and no local HTTP response;
+- restored nginx and verified the backend returned to Load Balancer rotation;
+- deleted all temporary Phase 5 Load Balancer resources;
+- verified the retained Azure baseline after cleanup.
+
 
 Current retained networking baseline:
 
@@ -532,6 +562,9 @@ Subnet-level NSG:    none
 Subnet route table:  none
 Active UDRs:         none
 Effective routing:   Azure system routes only
+VNet peerings:       none
+Temporary peer VNet: none
+Temporary peer VM:   none
 SSH rule:            allow-ssh-myip
 SSH source:          current administrator public IPv4 /32
 SSH port:            TCP/22
@@ -543,11 +576,19 @@ Implementation files:
 - `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE1_NETWORKING_BASELINE_INSPECTION.md`
 - `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE2_NSG_CONNECTIVITY_TROUBLESHOOTING.md`
 - `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE3_ROUTING_AND_UDR_TROUBLESHOOTING.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE4_VNET_PEERING_PRIVATE_CONNECTIVITY_TROUBLESHOOTING.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE5A_LOAD_BALANCER_PREPARATION_AND_QUOTA_TROUBLESHOOTING.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE5B_BACKEND_SERVICE_PREPARATION.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE5C_STANDARD_PUBLIC_LOAD_BALANCER_BUILD_AND_VERIFICATION.md`
+- `labs/04-networking-connectivity-troubleshooting/LAB04_PHASE5D_LOAD_BALANCER_BACKEND_CONNECTIVITY_TROUBLESHOOTING.md`
 - `labs/04-networking-connectivity-troubleshooting/LAB04_TROUBLESHOOTING_SSH_SOURCE_IP_CHANGED.md`
 
-Next:
+Completion checkpoint:
 
-- Phase 4 — VNet Peering & Private Connectivity Troubleshooting
+- Phases 1–5 completed.
+- All temporary Phase 4 and Phase 5 resources deleted.
+- Original retained networking baseline restored and verified.
+- Lab 04 completed.
 
 ## Optional extensions
 
@@ -824,7 +865,7 @@ Recommended progression:
 [x] Lab 01 — Azure Foundation & Resource Lifecycle
 [x] Lab 02 — Azure Compute & Administration
 [x] Lab 03 — Identity, RBAC & Governance
-[ ] Lab 04 — Azure Networking & Connectivity Troubleshooting
+[x] Lab 04 — Azure Networking & Connectivity Troubleshooting
 [ ] Lab 05 — Azure Storage & Data Access
 [ ] Lab 06 — Monitoring, Logs & Incident Diagnosis
 [ ] Lab 07 — Backup, Recovery, Updates & Compliance
@@ -836,7 +877,7 @@ Lab 02 is completed.
 
 Lab 03 is completed. Identity, Azure RBAC, scope/inheritance, least privilege, Microsoft Entra role comparison, group-based RBAC, Azure Policy basics, compliance evaluation, `Audit`/`Deny`, inheritance, initiatives, and governance troubleshooting were practiced.
 
-Current stage: Lab 04 — Azure Networking & Connectivity Troubleshooting is in progress. Phases 1–3 are completed; Phase 4 will cover VNet peering and private connectivity troubleshooting.
+Lab 04 is completed. Networking baseline inspection, NSG troubleshooting, UDR troubleshooting, VNet peering, Standard Public Load Balancer configuration, backend health probing, controlled backend failure/recovery, and final cleanup were practiced.
 
 Labs should be implemented in medium-sized increments rather than designed in full upfront.
 

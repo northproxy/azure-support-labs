@@ -10,13 +10,15 @@ Completed so far:
 Phase 1 — Networking Baseline Inspection
 Phase 2 — NSG Connectivity Troubleshooting
 Phase 3 — Routing and User-Defined Route Troubleshooting
-```
-
-Next:
-
-```text
 Phase 4 — VNet Peering & Private Connectivity Troubleshooting
 ```
+
+Current:
+
+```text
+Phase 5 — Azure Load Balancer & Backend Connectivity Troubleshooting
+```
+
 
 ---
 
@@ -49,6 +51,8 @@ By the end of this lab, the goal is to be able to:
 - diagnose connectivity failures caused by NSGs and routing;
 - distinguish similar symptoms with different root causes;
 - troubleshoot private connectivity and VNet peering;
+- understand Azure Load Balancer frontend IP configuration, backend pools, health probes, and load-balancing rules;
+- diagnose backend availability and quota-related deployment failures;
 - restore connectivity safely and remove temporary troubleshooting resources.
 
 ---
@@ -382,6 +386,191 @@ The original Azure system route baseline was restored.
 
 ---
 
+
+## Phase 4 — VNet Peering & Private Connectivity Troubleshooting
+
+File:
+
+[`LAB04_PHASE4_VNET_PEERING_PRIVATE_CONNECTIVITY_TROUBLESHOOTING.md`](LAB04_PHASE4_VNET_PEERING_PRIVATE_CONNECTIVITY_TROUBLESHOOTING.md)
+
+### Build and baseline validation
+
+- inspected the existing VNet address space;
+- selected a non-overlapping CIDR for a temporary second VNet;
+- created `vnet-azsl-peer` and `subnet-azsl-peer`;
+- created a temporary private-only VM without a Public IP;
+- confirmed there was no private connectivity before peering.
+
+### Peering configuration
+
+Bidirectional VNet peering was created.
+
+Both peering objects reached:
+
+```text
+PeeringState: Connected
+ProvisioningState: Succeeded
+```
+
+Private ICMP and TCP/22 connectivity were verified across the peering.
+
+The effective route table showed the remote VNet prefix with:
+
+```text
+NextHopType: VNetPeering
+```
+
+### Controlled failure
+
+One side of the VNet peering was deleted.
+
+The remaining side moved to:
+
+```text
+Disconnected
+```
+
+Private ICMP and TCP/22 connectivity failed, and the `VNetPeering` effective route disappeared.
+
+### Diagnosis
+
+An attempt to recreate only one side produced:
+
+```text
+RemotePeeringIsDisconnected
+```
+
+The disconnected peering object had to be removed before the relationship could be recreated cleanly.
+
+### Fix and verification
+
+Both peering objects were recreated.
+
+Verification confirmed:
+
+```text
+Connected / Succeeded
+private ICMP connectivity restored
+private TCP/22 connectivity restored
+VNetPeering effective route restored
+```
+
+### Cleanup
+
+All temporary Phase 4 resources were deleted.
+
+The retained baseline was verified through Azure CLI.
+
+---
+
+## Phase 5 — Azure Load Balancer & Backend Connectivity Troubleshooting
+
+Phase 5 is split into four logical blocks so that deployment constraints, guest preparation, Load Balancer construction, and connectivity troubleshooting remain separate support stories.
+
+### Phase 5A — Load Balancer Preparation & Quota Troubleshooting
+
+File:
+
+[`LAB04_PHASE5A_LOAD_BALANCER_PREPARATION_AND_QUOTA_TROUBLESHOOTING.md`](LAB04_PHASE5A_LOAD_BALANCER_PREPARATION_AND_QUOTA_TROUBLESHOOTING.md)
+
+Completed:
+
+- selected an isolated two-backend topology while retaining `vm-azsl-01` outside the Load Balancer pool;
+- diagnosed regional vCPU quota exhaustion;
+- confirmed the subscription was not eligible for a quota increase;
+- investigated subscription/region/zone SKU restrictions;
+- selected `Standard_D1_v2` as a usable 1-vCPU backend size;
+- diagnosed Hyper-V generation incompatibility with the first Ubuntu image choice;
+- switched to `Canonical:ubuntu-24_04-lts:server-gen1:latest`;
+- created `vm-azsl-lb-01` and `vm-azsl-lb-02` as private-only backend VMs.
+
+### Phase 5B — Backend Service Preparation
+
+File:
+
+[`LAB04_PHASE5B_BACKEND_SERVICE_PREPARATION.md`](LAB04_PHASE5B_BACKEND_SERVICE_PREPARATION.md)
+
+Completed:
+
+- installed nginx on both backend VMs;
+- differentiated each backend response;
+- verified nginx service state and local HTTP responses;
+- diagnosed a Run Command case where provisioning succeeded but the intended multi-line guest script did not fully produce the expected state;
+- established a known-good application baseline before introducing the Load Balancer.
+
+### Phase 5C — Standard Public Load Balancer Build & Verification
+
+File:
+
+[`LAB04_PHASE5C_STANDARD_PUBLIC_LOAD_BALANCER_BUILD_AND_VERIFICATION.md`](LAB04_PHASE5C_STANDARD_PUBLIC_LOAD_BALANCER_BUILD_AND_VERIFICATION.md)
+
+Completed:
+
+```text
+pip-azsl-lb-01
+        |
+        v
+fe-azsl-lb-01
+        |
+        v
+lbr-azsl-http-80
+        |
+        +--> hp-azsl-lb-http
+        |
+        v
+bp-azsl-lb-01
+   ├── vm-azsl-lb-01
+   └── vm-azsl-lb-02
+```
+
+- created a Standard regional Public IP;
+- created `lb-azsl-01`;
+- configured the frontend, backend pool, HTTP health probe, and TCP/80 rule;
+- verified all Load Balancer references and provisioning state with Azure CLI.
+
+### Phase 5D — Load Balancer Backend Connectivity Troubleshooting
+
+File:
+
+[`LAB04_PHASE5D_LOAD_BALANCER_BACKEND_CONNECTIVITY_TROUBLESHOOTING.md`](LAB04_PHASE5D_LOAD_BALANCER_BACKEND_CONNECTIVITY_TROUBLESHOOTING.md)
+
+Current block: **in progress**.
+
+Completed so far:
+
+- reproduced an external TCP/80 timeout through the newly created Standard Public Load Balancer;
+- verified the Public IP/frontend association;
+- verified backend pool membership;
+- verified the health probe and load-balancing rule references;
+- verified nginx was active and listening on `0.0.0.0:80` on both VMs;
+- localized the failure to the backend security path;
+- created `nsg-azsl-lb-backend` rather than changing the retained NSG or shared subnet;
+- created `allow-http-internet` for TCP/80;
+- associated the NSG with both temporary backend NICs;
+- verified external HTTP recovery;
+- verified traffic distribution across both backends;
+- tagged Phase 5 resources for safer Portal filtering and later cleanup.
+
+Current next step:
+
+```text
+Stop nginx on vm-azsl-lb-02
+        ↓
+Observe health-probe convergence
+        ↓
+Verify frontend traffic is served only by vm-azsl-lb-01
+        ↓
+Diagnose the degraded backend
+        ↓
+Restore nginx
+        ↓
+Verify both backends return to service
+        ↓
+Delete temporary Phase 5 resources
+```
+
+---
+
 ## NSG Failure vs Routing Failure
 
 Phase 2 and Phase 3 intentionally produced the same visible symptom:
@@ -447,6 +636,11 @@ Same symptom ≠ same root cause
 
 ```text
 Virtual Network
+├── VNet Peering
+│   ├── Non-overlapping address spaces
+│   ├── Connected / Disconnected state
+│   ├── Private cross-VNet connectivity
+│   └── RemotePeeringIsDisconnected troubleshooting
 Subnet
 Network Interface
 Public IP
@@ -472,7 +666,16 @@ Routing
 └── Next hop
     ├── VnetLocal
     ├── Internet
+    ├── VNetPeering
     └── None
+
+Azure Load Balancer
+├── Standard SKU
+├── Public frontend
+├── Backend pool
+├── Health probe
+├── Load-balancing rule
+└── Backend connectivity troubleshooting
 ```
 
 ---
@@ -491,6 +694,24 @@ Temporary Phase 3 resources:
 drop-admin-public-ip → deleted
 rt-azsl-lab04        → detached
 rt-azsl-lab04        → deleted
+```
+
+Temporary Phase 4 resources:
+
+```text
+vnet-azsl-peer       → deleted
+subnet-azsl-peer     → deleted with VNet
+temporary peer VM    → deleted
+VNet peerings        → deleted
+```
+
+Temporary Phase 5 preparation resources:
+
+```text
+initial vm-azsl-lb-01 (Standard_B2ats_v2) → deleted
+temporary NIC                              → deleted
+temporary OS disk                          → deleted
+temporary SSH key                          → deleted
 ```
 
 Retained networking state:
@@ -512,9 +733,20 @@ Effective routing
 ├── VNet prefix → VnetLocal
 ├── 0.0.0.0/0 → Internet
 └── Azure default reserved/special routes
+
+VNet peerings: none
+Temporary peer VNet: none
+Temporary peer VM: none
 ```
 
-SSH connectivity is currently working.
+Current Phase 5 quota checkpoint:
+
+```text
+Total Regional vCPUs       2 / 4
+Standard Dv2 Family vCPUs  0 / 4
+```
+
+SSH connectivity to the retained VM is working.
 
 ---
 
@@ -526,37 +758,28 @@ labs/04-networking-connectivity-troubleshooting/
 ├── LAB04_PHASE1_NETWORKING_BASELINE_INSPECTION.md
 ├── LAB04_PHASE2_NSG_CONNECTIVITY_TROUBLESHOOTING.md
 ├── LAB04_PHASE3_ROUTING_AND_UDR_TROUBLESHOOTING.md
+├── LAB04_PHASE4_VNET_PEERING_PRIVATE_CONNECTIVITY_TROUBLESHOOTING.md
+├── LAB04_PHASE5A_LOAD_BALANCER_PREPARATION_AND_QUOTA_TROUBLESHOOTING.md
+├── LAB04_PHASE5B_BACKEND_SERVICE_PREPARATION.md
+├── LAB04_PHASE5C_STANDARD_PUBLIC_LOAD_BALANCER_BUILD_AND_VERIFICATION.md
+├── LAB04_PHASE5D_LOAD_BALANCER_BACKEND_CONNECTIVITY_TROUBLESHOOTING.md
 └── LAB04_TROUBLESHOOTING_SSH_SOURCE_IP_CHANGED.md
 ```
 
 ---
 
-## Next Phase
+## Current Next Step
 
-**Phase 4 — VNet Peering & Private Connectivity Troubleshooting**
-
-Planned direction:
+Phase 5D is the active block.
 
 ```text
-Inspect current VNet address space
+Controlled backend failure
         ↓
-Create non-overlapping second VNet
+Health-probe observation
         ↓
-Create temporary second VM
+Traffic failover verification
         ↓
-Establish VNet peering
+Backend recovery
         ↓
-Test private connectivity
-        ↓
-Inspect effective routes
-        ↓
-Introduce one controlled peering/connectivity failure
-        ↓
-Diagnose before fixing
-        ↓
-Restore connectivity
-        ↓
-Delete temporary resources
+Final Phase 5 cleanup
 ```
-
-The second VM and second VNet are temporary Lab 04 resources and should be removed after the peering exercise unless they are immediately reused by another networking scenario.
