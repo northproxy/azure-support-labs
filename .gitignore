@@ -16,6 +16,10 @@ secrets.*
 # Azure local config
 .azure/
 
+# Azure IaC local captures and generated output
+infrastructure/baseline/
+infrastructure/main.json
+
 # OS/editor noise
 .vscode/
 .idea/
