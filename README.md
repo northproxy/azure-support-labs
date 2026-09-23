@@ -83,8 +83,8 @@ See [`tools/README.md`](tools/README.md) for current rules and limitations.
 
 ## Labs
 
-* [x] Lab 01 — Azure Foundation & Resource Lifecycle
-* [x] Lab 02 — Azure Compute & Administration
+* [x] Lab 01 — Azure Foundation & Resource Lifecycle — **completed**
+* [x] Lab 02 — Azure Compute & Administration — **completed**
 * [x] Lab 03 — Identity, RBAC & Governance — **completed**
 * [x] Lab 04 — Azure Networking & Connectivity Troubleshooting — **completed**
 * [ ] Lab 05 — Azure Storage & Data Access
